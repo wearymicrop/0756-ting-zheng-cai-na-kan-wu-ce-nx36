@@ -1,0 +1,3 @@
+{% from 'exhibits.jinja' import sources %}
+<div class="section-heading"><h2>出版序列</h2><span>末版 {{ current.tips|join('、') }}</span></div>
+<div class="version-rail">{% for v in current.versions %}<article><h3>{{ v.version }}</h3><p>{{ v.pages }} 页 · {{ v.published_at[:10] }}</p><p>前版 {{ v.parent or '—' }}</p>{{ sources([v.source]) }}</article>{% else %}<p>查无有效版本。</p>{% endfor %}</div>

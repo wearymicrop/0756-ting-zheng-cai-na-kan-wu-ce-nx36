@@ -1,0 +1,6 @@
+{% macro sources(evidence) %}
+{% for src in evidence %}<details><summary>{{ src.table }} · 第 {{ src.line }} 行</summary><pre>{{ src.raw|tojson(indent=2) }}</pre></details>{% endfor %}
+{% endmacro %}
+{% macro status(value) %}
+{{ {'active':'留存','deleted':'删段','invalid':'待核','absent':'未录','stable':'一致','fork':'分叉','unresolved':'待核','support':'支持','oppose':'反对','amend':'建议修改','accepted':'采纳','rejected':'未采纳','partial':'部分采纳','review':'待审','ready':'可寄送','held':'暂缓寄送','upsert':'录入','move':'移页','delete':'删段','effective':'有效意见','repetition':'复述与修订','disputed':'争议'}.get(value,'—') }}
+{% endmacro %}

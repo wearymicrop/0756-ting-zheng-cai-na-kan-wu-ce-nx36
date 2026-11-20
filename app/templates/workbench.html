@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ project }} · {{ titles[stage] }}</title>
+<link rel="stylesheet" href="/static/theme.css"><link rel="stylesheet" href="/static/layout.css"><link rel="stylesheet" href="/static/components.css">
+<script src="/static/pages.js" defer></script><script src="/static/archive.js" defer></script></head>
+<body>
+<aside class="binding">
+<a class="imprint" href="/?sample={{ sample }}"><span>勘</span><b>{{ project }}</b></a>
+<nav aria-label="听证档案">{% for id, caption in titles.items() %}<a href="/work/{{ id }}?sample={{ sample }}" {% if id==stage %}aria-current="page"{% endif %}>{{ caption }}</a>{% endfor %}</nav>
+<div class="docket">案卷编号<strong>{{ result.versions.docket }}</strong><small>听证会文书组</small></div>
+</aside>
+<main class="desk">
+<header><div><p class="series">公共听证 / {{ result.versions.docket }}</p><h1>{{ titles[stage] }}</h1></div>
+<form id="case-form" data-current="{{ sample }}"><label>案卷样例 <select id="sample" name="sample">{% for name,label in samples.items() %}<option value="{{ name }}" {% if name==sample %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label> <button>归档案卷</button></form></header>
+{% set totals = result.adoption.totals %}
+<div class="kpis"><div>原始记录 <b>{{ totals.input }}</b></div><div>有效意见 <b>{{ totals.effective }}</b></div><div>复述与修订来源 <b>{{ totals.repetition }}</b></div><div>争议来源 <b>{{ totals.disputed }}</b></div></div>
+<section class="panel folio-panel">{% include stage ~ '.jinja' %}</section>
+<section class="panel appendix" id="issue-register"><h2>勘误登记 <small>{{ '待复核' if result.adoption.status == 'REVIEW' else '对勘完毕' }}</small></h2>
+<div class="docket-list">{% for name, section in result.items() %}{% for alert in section.issues %}<details><summary>{{ alert.label }} <code>{{ alert.code }}</code></summary>{% for source in alert.sources %}<p>{{ source.table }} · 第 {{ source.line }} 行</p><pre>{{ source.raw|tojson(indent=2) }}</pre>{% endfor %}</details>{% endfor %}{% endfor %}
+{% if result.adoption.status=='MATCHED' and not result.mailings.issues %}<p>原始记录已对平。</p>{% endif %}</div></section>
+<footer><span>规则 {{ rule_version }} · 输入 {{ input_ref }}</span><span id="filing" role="status">等待归档</span><div><button type="button" id="repeat" hidden>复跑案卷</button> <a id="digest-link" hidden>下载案卷证据</a></div></footer>
+</main></body></html>

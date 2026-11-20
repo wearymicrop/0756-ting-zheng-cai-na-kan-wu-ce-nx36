@@ -1,0 +1,4 @@
+{% from 'exhibits.jinja' import sources, status %}
+<div class="section-heading"><h2>锚点操作簿</h2><span>{{ current.input_rows }} 条</span></div>
+<div class="scroll"><table><thead><tr><th>锚点</th><th>版本</th><th>操作</th><th class="num">页码</th><th>来源</th></tr></thead><tbody>
+{% for item in current.operations %}<tr><td>{{ item.anchor }}</td><td>{{ item.version }}</td><td>{{ status(item.op) }}</td><td class="num">{{ item.page or '—' }}</td><td>{{ sources(item.sources) }}</td></tr>{% else %}<tr><td colspan="5">暂无锚点。</td></tr>{% endfor %}</tbody></table></div>

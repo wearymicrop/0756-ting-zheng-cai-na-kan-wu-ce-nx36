@@ -1,0 +1,13 @@
+{% from 'exhibits.jinja' import sources, status %}
+<div class="section-heading"><h2>段落对勘</h2><label>稳定锚点 <select id="anchor-select">{% for item in current.anchors %}<option value="{{ loop.index0 }}">{{ item.anchor }}</option>{% endfor %}</select></label></div>
+{% for item in current.anchors %}
+{% set first = item.history|selectattr('op','equalto','upsert')|first %}
+<article class="spread" data-folio="{{ loop.index0 }}" {% if not loop.first %}hidden{% endif %}>
+<div class="original"><div class="folio-mark">初次记录 <span>{{ item.anchor }}</span></div><h3>{% if first %}{{ first.version }} · 原页 {{ first.page }}{% else %}未找到原段{% endif %}</h3>
+{% if first %}<blockquote>{{ first.sources[0].raw.text }}</blockquote>{{ sources(first.sources) }}{% endif %}</div>
+<div class="present"><div class="folio-mark">现行文书 <span>{{ status(item.status) }}</span></div>
+{% for leaf in item.leaves %}<div class="edition"><h3>{{ leaf.version }} · {% if leaf.page %}现页 {{ leaf.page }}{% else %}{{ status(leaf.state) }}{% endif %}</h3>
+{% if leaf.text %}<blockquote>{{ leaf.text }}</blockquote>{% endif %}{% if leaf.source %}{{ sources([leaf.source]) }}{% endif %}</div>{% endfor %}</div>
+<div class="trail"><h3>修订轨迹</h3>{% for row in item.history %}<span>{{ row.version }} {{ status(row.op) }}{% if row.page %} · 第 {{ row.page }} 页{% endif %}</span>{% endfor %}</div>
+</article>
+{% else %}<p class="empty">没有可对勘的段落。</p>{% endfor %}

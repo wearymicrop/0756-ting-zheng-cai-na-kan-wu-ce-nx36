@@ -1,0 +1,4 @@
+{% from 'exhibits.jinja' import sources, status %}
+<div class="section-heading"><h2>勘误寄送草案</h2><span>可寄送 {{ current.ready }} · 暂缓 {{ current.held }}</span></div>
+<div class="scroll"><table><thead><tr><th>收件人</th><th>地址</th><th>状态</th><th>采纳与勘误</th></tr></thead><tbody>
+{% for draft in current.drafts %}<tr><td>{{ draft.speaker }} · {{ draft.id }}</td><td>{{ draft.address or '—' }}{{ sources([draft.source]) }}</td><td>{{ status(draft.state) }}</td><td>{% for item in draft['items'] %}<details><summary>{{ item.topic }} · {{ status(item.verdict) }}</summary>{% for correction in item.corrections %}<p>{{ correction.anchor }} · {{ correction.version }} · {{ correction.original_page }} → {{ correction.current_page or status(correction.state) }}</p>{{ sources(correction.sources) }}{% endfor %}</details>{% endfor %}</td></tr>{% else %}<tr><td colspan="4">没有寄送草案。</td></tr>{% endfor %}</tbody></table></div>

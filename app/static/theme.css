@@ -1,0 +1,20 @@
+:root {
+  --bg: #eee1cd;
+  --surface: #fffbf0;
+  --surface-2: #f5ebd8;
+  --ink: #332719;
+  --ink-muted: #66523a;
+  --accent: #923d26;
+  --ochre-deep: #762d1b;
+  --line: #d6bda0;
+  --line-dark: #ad8466;
+  --warn: #79551a;
+  --ok: #3f6244;
+  --bad: #931f26;
+  --font-doc: "Songti SC", "Noto Serif CJK SC", SimSun, serif;
+  --font-data: "SFMono-Regular", Consolas, monospace;
+  --font-ui: "PingFang SC", "Microsoft YaHei", sans-serif;
+  --gutter: 24px;
+  --notch: 8px;
+  --sheet-height: 228px;
+}

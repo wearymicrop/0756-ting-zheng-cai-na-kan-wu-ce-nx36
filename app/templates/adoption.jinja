@@ -1,0 +1,5 @@
+{% from 'exhibits.jinja' import sources, status %}
+<div class="section-heading"><h2>逐条采纳结论</h2><span>覆盖差额 {{ current.totals.difference }} 条</span></div>
+<div class="scroll" id="decision-table"><table><thead><tr><th>意见</th><th>发言人</th><th>结论</th><th>末版核对</th></tr></thead><tbody>
+{% for item in current['items'] %}<tr><td>{{ item.topic }}</td><td>{{ item.speaker }}</td><td>{{ status(item.verdict) }}</td><td>{% for decision in item.decisions %}<div>{{ decision.anchor }} · {{ decision.tip }} · {{ status(decision.result) }}{{ sources(decision.sources) }}</div>{% endfor %}</td></tr>{% else %}<tr><td colspan="4">暂无采纳结论。</td></tr>{% endfor %}</tbody></table></div>
+<div class="coverage"><h3>来源覆盖</h3>{% for row in current.coverage %}<details><summary>行 {{ row.line }} · {{ status(row.category) }}</summary><pre>{{ row.source.raw|tojson(indent=2) }}</pre></details>{% endfor %}</div>

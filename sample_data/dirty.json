@@ -1,0 +1,318 @@
+{
+  "config": {
+    "docket": "HX-2026-17",
+    "root": "V1"
+  },
+  "versions": [
+    {
+      "version": "V1",
+      "parent": null,
+      "published_at": "2026-10-15T10:00:00+08:00",
+      "pages": 12
+    },
+    {
+      "version": "V2",
+      "parent": "V1",
+      "published_at": "2026-10-19T10:00:00+08:00",
+      "pages": 15
+    },
+    {
+      "version": "V3",
+      "parent": "V2",
+      "published_at": "2026-10-22T10:00:00+08:00",
+      "pages": 16
+    },
+    {
+      "version": "V3-B",
+      "parent": "V2",
+      "published_at": "2026-10-23T10:00:00+08:00",
+      "pages": 16
+    },
+    {
+      "version": "V-X",
+      "parent": "V-Y",
+      "published_at": "2026-10-24T12:00:00+08:00",
+      "pages": 5
+    },
+    {
+      "version": "V-Y",
+      "parent": "V-X",
+      "published_at": "2026-10-24T13:00:00+08:00",
+      "pages": 7
+    }
+  ],
+  "directory": [
+    {
+      "id": "P001",
+      "name": "林原",
+      "aliases": [
+        "林先生"
+      ],
+      "contact": "p001@example.test"
+    },
+    {
+      "id": "P002",
+      "name": "周岚",
+      "aliases": [
+        "周女士"
+      ],
+      "contact": "p002@example.test"
+    },
+    {
+      "id": "P003",
+      "name": "周岚",
+      "aliases": [
+        "周老师"
+      ],
+      "contact": "p003@example.test"
+    },
+    {
+      "id": "P004",
+      "name": "宋禾",
+      "aliases": [],
+      "contact": "p004@example.test"
+    },
+    {
+      "id": "P005",
+      "name": "何岱",
+      "aliases": [],
+      "contact": "—"
+    }
+  ],
+  "passages": [
+    {
+      "version": "V1",
+      "anchor": "A-01",
+      "op": "upsert",
+      "page": 3,
+      "speaker_id": "P001",
+      "topic": "慢行入口",
+      "position": "amend",
+      "text": "建议把南侧慢行入口向东挪十米。"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-02",
+      "op": "upsert",
+      "page": 4,
+      "speaker_id": "P001",
+      "topic": "慢行入口",
+      "position": "amend",
+      "text": "我补充一次，南门步行口东移。"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-03",
+      "op": "upsert",
+      "page": 5,
+      "speaker_id": "P002",
+      "topic": "夜间照明",
+      "position": "support",
+      "text": "同意晚间十点后保留主路灯。"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-04",
+      "op": "upsert",
+      "page": 6,
+      "speaker_id": "P003",
+      "topic": "夜间照明",
+      "position": "oppose",
+      "text": "居民楼旁的灯应在十点熄灭。"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-05",
+      "op": "upsert",
+      "page": 7,
+      "speaker_id": "P004",
+      "topic": "排水沟",
+      "position": "amend",
+      "text": "北侧沟底增设沉砂井。"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-06",
+      "op": "upsert",
+      "page": 8,
+      "speaker_id": "P005",
+      "topic": "雨棚",
+      "position": "support",
+      "text": "候车点加装雨棚。"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-07",
+      "op": "upsert",
+      "page": 9,
+      "speaker_id": "P005",
+      "topic": "雨棚",
+      "position": "support",
+      "text": "补记在候车点设置雨棚。"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-08",
+      "op": "upsert",
+      "page": 10,
+      "speaker_id": "P001",
+      "topic": "绿带",
+      "position": "amend",
+      "text": "保留东墙内原有灌木。"
+    },
+    {
+      "version": "V2",
+      "anchor": "A-01",
+      "op": "move",
+      "page": 7
+    },
+    {
+      "version": "V2",
+      "anchor": "A-02",
+      "op": "move",
+      "page": 8
+    },
+    {
+      "version": "V2",
+      "anchor": "A-03",
+      "op": "move",
+      "page": 9
+    },
+    {
+      "version": "V2",
+      "anchor": "A-04",
+      "op": "move",
+      "page": 10
+    },
+    {
+      "version": "V3",
+      "anchor": "A-01",
+      "op": "move",
+      "page": 11
+    },
+    {
+      "version": "V3",
+      "anchor": "A-07",
+      "op": "move",
+      "page": 13
+    },
+    {
+      "version": "V3",
+      "anchor": "A-08",
+      "op": "move",
+      "page": 14
+    },
+    {
+      "version": "V2",
+      "anchor": "A-05",
+      "op": "upsert",
+      "page": 11,
+      "topic": "排水沟",
+      "position": "amend",
+      "text": "北侧排水沟拟增设一个沉砂井。",
+      "speaker": "宋禾"
+    },
+    {
+      "version": "V3-B",
+      "anchor": "A-01",
+      "op": "move",
+      "page": 11
+    },
+    {
+      "version": "V3-B",
+      "anchor": "A-07",
+      "op": "move",
+      "page": 13
+    },
+    {
+      "version": "V3-B",
+      "anchor": "A-08",
+      "op": "delete"
+    },
+    {
+      "version": "V3",
+      "anchor": "A-09",
+      "op": "upsert",
+      "page": 15,
+      "speaker": "周岚",
+      "topic": "小广场",
+      "position": "amend",
+      "text": "请在广场东侧加设长椅。"
+    },
+    {
+      "version": "V3-B",
+      "anchor": "A-10",
+      "op": "move",
+      "page": 2
+    },
+    {
+      "version": "V3-B",
+      "anchor": "A-03",
+      "op": "move",
+      "page": 9
+    },
+    {
+      "version": "V3-B",
+      "anchor": "A-03",
+      "op": "move",
+      "page": 12
+    },
+    {
+      "version": "V-X",
+      "anchor": "A-X",
+      "op": "delete"
+    }
+  ],
+  "decisions": [
+    {
+      "version": "V1",
+      "anchor": "A-01",
+      "result": "accepted"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-02",
+      "result": "accepted"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-03",
+      "result": "partial"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-04",
+      "result": "rejected"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-05",
+      "result": "accepted"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-06",
+      "result": "accepted"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-07",
+      "result": "accepted"
+    },
+    {
+      "version": "V1",
+      "anchor": "A-08",
+      "result": "partial"
+    },
+    {
+      "version": "V2",
+      "anchor": "A-05",
+      "result": "accepted"
+    },
+    {
+      "version": "V3-B",
+      "anchor": "A-01",
+      "result": "rejected"
+    }
+  ]
+}
