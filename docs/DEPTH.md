@@ -15,6 +15,7 @@
 | M5 意见归并 | 检视意见组的所有原始来源 | `GET /api/opinions/{sample}` | `app/modules/m5_opinions/rules.py` | `tests/test_opinions.py` |
 | M6 采纳核对 | 并列比对分支结论和来源总账 | `GET /api/adoption/{sample}` | `app/modules/m6_adoption/rules.py` | `tests/test_adoption.py` |
 | M7 勘误寄送 | 将可寄送和暂缓草案按收件人生成 | `GET /api/mailings/{sample}` | `app/modules/m7_mailings/rules.py` | `tests/test_mailings.py` |
+| M8 旧案卷影响册 | 规则升级后逐条重算旧勘误，给出维持/追补/撤回与收件人 | `POST /api/runs/{id}/impact/recompute` | `app/modules/m8_impact/rules.py` | `tests/test_impact.py` |
 
 ## 陷阱登记
 
@@ -28,6 +29,9 @@
 | TRAP-20 | 脏样例：修订互相指向 | 遍历不结束 | 找出环并隔离 | `app/modules/m1_versions/rules.py` | `tests/test_versions.py::test_cycle_isolated` |
 | TRAP-21 | 干净样例：指向缺失前版 | 误作首版投入核算 | 隔离断链版本 | `app/modules/m1_versions/rules.py` | `tests/test_versions.py::test_missing_parent` |
 | TRAP-22 | 干净样例：说话人使用登记别名 | 新增重复发言人 | 以已登记别名回溯编号 | `app/modules/m3_speakers/rules.py` | `tests/test_speakers.py::test_alias_resolution` |
+| TRAP-31 | 规则升级后重算旧案卷 | 直接覆盖已送达结论 | 已送达条目冻结原结论，只出具追补/撤回单 | `app/modules/m8_impact/rules.py` | `tests/test_impact.py::test_served_records_are_frozen_and_never_lost` |
+| TRAP-32 | 重算过程中断 | 旧影响册被半成品覆盖 | 单事务整册替换，失败回滚恢复旧版 | `app/store.py` | `tests/test_impact.py::test_interrupted_recompute_restores_previous_register` |
+| TRAP-33 | 同一案卷反复重跑 | 每次新增重复结果 | 以意见稳定键对齐，整册替换不追加 | `app/modules/m8_impact/rules.py` | `tests/test_impact.py::test_same_rule_recompute_all_maintain` |
 
 ## 对账规则
 
@@ -36,3 +40,13 @@
 ## 已知边界
 
 输入是文书组已抽取的结构化记录。人工指定主题及锚点。递交草案与原证据供外部流程使用。
+
+## 旧案卷影响册（先发后补）
+
+规则更新后旧结果须在当天排期前重算，系统采用「先发后补」：可寄送勘误先按旧版结论发出并写入只追加的寄送台账（冻结原结论与页码），随后按当前规则重算。每条旧勘误以意见稳定键（登记号、议题、立场的哈希）对齐后得到三种结果：
+
+- **维持 maintain**：采纳结论与末版页码勘误均未变；
+- **追补 supplement**：条目仍在且结论或页码变化（含规则重算新增条目），向同一收件人出补寄单；
+- **撤回 withdraw**：旧勘误结论确定，但重算后锚点删除或落入待审、原勘误无法维持，出撤回单。
+
+已送达条目即便重算变化也不改写原结论，只在影响册标记 `served_locked` 并给出 `notice_supplement`/`notice_withdraw` 动作。受影响收件人按人归并，地址无效或结论待审时状态为暂缓（held）。影响册每个旧案卷仅一行，重算在单事务内整册替换，中断即回滚；下午补交件只允许追加原有输入表，不改动旧行。

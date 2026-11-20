@@ -1,0 +1,34 @@
+{% from 'exhibits.jinja' import sources, status %}
+<div class="section-heading"><h2>旧案卷影响册</h2><span>基线 {{ baseline_id[:12] }} · 规则 {{ baseline.manifest.rule_version }} → {{ rule_version }}</span></div>
+<div class="impact-console" data-run="{{ baseline_id }}">
+  <p class="series">先发后补：先登记可寄送勘误，规则重算后已送达条目不改口，仅出具追补或撤回单。</p>
+  <div class="impact-actions">
+    <button type="button" class="impact-recompute">按当前规则重算</button>
+    <button type="button" class="impact-dispatch">登记可寄送勘误（先发）</button>
+    <span class="impact-status" role="status">{% if impact %}第 {{ impact.revision }} 版影响册 · 重算 {{ impact.summary.total }} 条{% else %}尚未重算{% endif %}</span>
+  </div>
+</div>
+{% if impact %}
+<div class="kpis impact-kpis"><div>维持 <b>{{ impact.summary.maintain }}</b></div><div>追补 <b>{{ impact.summary.supplement }}</b></div><div>撤回 <b>{{ impact.summary.withdraw }}</b></div><div>已送达 <b>{{ impact.summary.served }}</b></div></div>
+<div class="scroll"><table><thead><tr><th>意见</th><th>重算结果</th><th>旧结论 → 新结论</th><th>送达与动作</th><th>受影响收件人</th><th>变化依据</th></tr></thead><tbody>
+{% for entry in impact.entries %}
+<tr class="impact-row outcome-{{ entry.outcome }}">
+<td>{{ entry.topic }}<br><code>{{ entry.key[:10] }}</code></td>
+<td><b>{{ entry.outcome_label }}</b><br><small>{{ entry.reason_label }}</small></td>
+<td>{{ status(entry.old_verdict) }} → {{ status(entry.new_verdict) }}{% if 'pages' in entry.changed_fields %}<br><small>末版页码变化</small>{% endif %}{% if entry.is_new %}<br><small>规则重算新增条目</small>{% endif %}</td>
+<td>{% if entry.served %}<span class="badge badge-served">已送达 · {{ status(entry.dispatched_verdict) }}</span>{% if entry.served_locked %}<br><small>原结论冻结，出{{ '追补单' if entry.outcome=='supplement' else '撤回单' }}</small>{% else %}<br><small>结论一致，维持即可</small>{% endif %}{% else %}<span class="badge">待寄送</span>{% endif %}</td>
+<td>{{ entry.recipient.speaker }} · {{ entry.recipient.speaker_id }}<br><small>{{ entry.recipient.address or '无可用地址' }} · {{ '可寄送' if entry.recipient.mailable else '暂缓寄送' }}</small></td>
+<td><small>{{ entry.changed_fields|join('、') if entry.changed_fields else '无变化' }}</small></td>
+</tr>
+{% endfor %}
+</tbody></table></div>
+<h3 class="recipient-heading">待补寄 / 撤回对象（{{ impact.recipients|length }} 人）</h3>
+<div class="scroll"><table><thead><tr><th>收件人</th><th>地址</th><th>状态</th><th>动作</th><th>涉及条目</th></tr></thead><tbody>
+{% for person in impact.recipients %}
+<tr><td>{{ person.speaker }} · {{ person.speaker_id }}</td><td>{{ person.address or '无可用地址' }}</td><td>{{ status(person.state) }}</td><td>{{ person.actions|map('upper')|join('、') }}</td><td>{{ person.entries|join('、') }}</td></tr>
+{% else %}<tr><td colspan="5">没有需要追补或撤回的收件人。</td></tr>
+{% endfor %}
+</tbody></table></div>
+{% else %}
+<p class="empty">请点击「按当前规则重算」生成影响册。</p>
+{% endif %}

@@ -2,7 +2,8 @@ import hashlib
 import json
 from datetime import datetime, timezone
 
-from app.settings import PROJECT, RULE_VERSION
+from app import settings
+from app.settings import PROJECT
 
 
 def canonical(value):
@@ -13,15 +14,20 @@ def sha256(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
 
 
+def rule_version():
+    # 动态读取，测试可 monkeypatch settings.RULE_VERSION 模拟规则升级。
+    return settings.RULE_VERSION
+
+
 def identity(data, sample):
-    return sha256([PROJECT, RULE_VERSION, sample, data])
+    return sha256([PROJECT, rule_version(), sample, data])
 
 
 def make_manifest(data, sample, digest, elapsed_ms):
     return {
         "digest": digest,
         "input_sha256": sha256(data),
-        "rule_version": RULE_VERSION,
+        "rule_version": rule_version(),
         "project": PROJECT,
         "sample": sample,
         "elapsed_ms": elapsed_ms,
